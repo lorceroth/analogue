@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "target": "es5",
+        "moduleResolution": "classic",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "sourceMap": false,
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "node_modules/"
+            ]
+        }
+    }
+}
