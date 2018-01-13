@@ -1,6 +1,12 @@
 import { AbstractElement } from "./abstractElement";
 
 export class Clock extends AbstractElement {
+    private $face: Element;
+    private $defs: Element;
+    private $gradient: Element;
+    private $from: Element;
+    private $to: Element;
+
     private xPos: number;
     private yPos: number;
     private strokeWidth: number;
@@ -9,12 +15,35 @@ export class Clock extends AbstractElement {
 
     constructor() {
         super();
-        this.$element = document.createElementNS(this.xmlns, 'circle');
+        this.$element = document.createElementNS(this.xmlns, 'g');
+        this.$face = document.createElementNS(this.xmlns, 'circle');
+        this.$element.appendChild(this.$face);
+        this.createGradient();
+    }
+
+    createGradient(): void {
+        this.$defs = document.createElementNS(this.xmlns, 'defs');
+        this.$gradient = document.createElementNS(this.xmlns, 'radialGradient');
+        this.$gradient.setAttribute('id', 'clock--gradient');
+
+        this.$from = document.createElementNS(this.xmlns, 'stop');
+        this.$from.setAttributeNS(null, 'offset', '0%');
+        this.$from.setAttributeNS(null, 'stop-color', this.color);
+        this.$gradient.appendChild(this.$from);
+
+        this.$to = document.createElementNS(this.xmlns, 'stop');
+        this.$to.setAttributeNS(null, 'offset', '100%');
+        this.$to.setAttributeNS(null, 'stop-color', 'transparent');
+        this.$gradient.appendChild(this.$to);
+
+        this.$defs.appendChild(this.$gradient);
+        this.$element.appendChild(this.$defs);
+        this.$element.appendChild(this.$face);
     }
 
     setXPos(xPos: number): void {
         this.xPos = xPos;
-        this.$element.setAttributeNS(null, 'cx', xPos.toString());
+        this.$face.setAttributeNS(null, 'cx', xPos.toString());
     }
 
     getXPos(): number {
@@ -23,7 +52,7 @@ export class Clock extends AbstractElement {
 
     setYPos(yPos: number): void {
         this.yPos = yPos;
-        this.$element.setAttributeNS(null, 'cy', yPos.toString());
+        this.$face.setAttributeNS(null, 'cy', yPos.toString());
     }
 
     getYPos(): number {
@@ -32,7 +61,7 @@ export class Clock extends AbstractElement {
 
     setStrokeWidth(strokeWidth: number): void {
         this.strokeWidth = strokeWidth;
-        this.$element.setAttributeNS(null, 'stroke-width', strokeWidth.toString());
+        this.$face.setAttributeNS(null, 'stroke-width', strokeWidth.toString());
     }
 
     getStrokeWidth(): number {
@@ -41,7 +70,7 @@ export class Clock extends AbstractElement {
 
     setRadius(radius: number): void {
         this.radius = radius;
-        this.$element.setAttributeNS(null, 'r', radius.toString());
+        this.$face.setAttributeNS(null, 'r', radius.toString());
     }
 
     getRadius(): number {
@@ -50,7 +79,9 @@ export class Clock extends AbstractElement {
 
     setColor(color: string): void {
         this.color = color;
-        this.$element.setAttributeNS(null, 'stroke', color);
+        this.$face.setAttributeNS(null, 'stroke', color);
+        this.$from.setAttributeNS(null, 'stop-color', color);
+        this.$face.setAttributeNS(null, 'fill', 'url(#clock--gradient)');
     }
 
     getColor(): string {

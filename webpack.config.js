@@ -1,6 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const { CheckerPlugin } = require('awesome-typescript-loader');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const extractSass = new ExtractTextPlugin({
+    filename: '[name].css'
+});
 
 module.exports = {
     entry: './src/main.ts',
@@ -17,10 +22,26 @@ module.exports = {
             {
                 test: /\.ts$/,
                 loader: 'awesome-typescript-loader'
+            },
+            {
+                test: /\.scss$/,
+                use: extractSass.extract({
+                    use: [{
+                        loader: 'css-loader'
+                    }, {
+                        loader: 'sass-loader'
+                    }],
+                    fallback: 'style-loader'
+                })
+            },
+            {
+                test: /\.ttf$/,
+                loader: 'url-loader'
             }
         ]
     },
     plugins: [
-        new CheckerPlugin()
+        new CheckerPlugin(),
+        extractSass
     ]
 };
