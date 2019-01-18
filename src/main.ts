@@ -1,5 +1,5 @@
 import { Bolt } from './bolt';
-import { Clock } from './clock';
+import { ClockFace } from './clockFace';
 import { Hand } from './hand';
 import { NumberSet } from './numberSet';
 
@@ -10,7 +10,7 @@ import './../resources/sass/styles.scss';
 const $main = document.querySelector('.canvas__container');
 
 // Create and configure the clock face
-let clock = new Clock();
+let clock = new ClockFace();
 
 clock.configure(config => {
     config.setXPos(100);

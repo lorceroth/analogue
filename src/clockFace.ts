@@ -1,6 +1,6 @@
 import { AbstractElement } from "./abstractElement";
 
-export class Clock extends AbstractElement {
+export class ClockFace extends AbstractElement {
     private $face: Element;
     private $defs: Element;
     private $gradient: Element;
